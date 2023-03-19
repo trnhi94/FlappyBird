@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
-    public T instance
+    public static T Instance
     {
         get
         {
@@ -25,7 +25,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null && instance != this)
+        if (_instance != null && Instance != this)
         {
             Debug.LogWarning($"Destroy {typeof(T)} instance in {gameObject.name}");
             Destroy(this as T);

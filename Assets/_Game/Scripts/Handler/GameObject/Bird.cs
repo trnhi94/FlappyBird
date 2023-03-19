@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Bird : MonoBehaviour
 {
+    public Vector2 startPos;
     private Animator anim;
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float gravity = 9.8f;
     private float velocityY;
+    private Collide2D collider;
+    private bool _isDead =  false;
+    public bool IsDead  => _isDead;
 
     // Start is called before the first frame update
     private void Start()
     {
         anim = GetComponent<Animator>();
+        collider = GetComponent<Collide2D>();
     }
 
     // Update is called once per frame
@@ -31,6 +36,23 @@ public class Bird : MonoBehaviour
         {
             anim.SetTrigger("Flappy");
             velocityY = jumpForce;
+        }
+
+        CheckCollide();
+    }
+
+    private void CheckCollide()
+    {
+        var colliders = collider.GetCollisions();
+
+        foreach (var other in colliders)
+        {
+            if(other.gameObject.layer == 7)
+            {
+                this.transform.position = new Vector3(0f, other.Top, 0f);
+                _isDead = true;
+                GameController.Instance.EndGame();
+            }
         }
     }
 }

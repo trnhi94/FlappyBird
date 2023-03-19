@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuPnl : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Button startGameBtn;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        startGameBtn.onClick.AddListener(() =>
+        {
+            this.gameObject.SetActive(false);
+            Time.timeScale = 1f;
+        });
     }
 }

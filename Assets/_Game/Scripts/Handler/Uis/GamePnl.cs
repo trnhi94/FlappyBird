@@ -21,6 +21,7 @@ public class GamePnl : MonoBehaviour
         pausePnl.SetActive(false);
         pauseBtn.onClick.AddListener(() =>
         {
+            GameController.Instance.State = GameController.GameState.PauseGame;
             Time.timeScale = 0f;
             scoreTxt.gameObject.SetActive(false);
             pauseBtn.gameObject.SetActive(false);
@@ -29,6 +30,7 @@ public class GamePnl : MonoBehaviour
 
         continueButton.onClick.AddListener(() =>
         {
+            GameController.Instance.State = GameController.GameState.PlayGame;
             Time.timeScale = 1f;
             pausePnl.SetActive(false);
             scoreTxt.gameObject.SetActive(true);

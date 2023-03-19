@@ -17,14 +17,6 @@ public class Collide2D : MonoBehaviour
         allCollides.Add(this);
     }
 
-    private void Update()
-    {
-        if(GetCollisions().Count > 0)
-        {
-            Debug.Log("Collision!!");
-        }
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
@@ -40,10 +32,20 @@ public class Collide2D : MonoBehaviour
     {
         return allCollides.FindAll((collide) =>
         {
-            if (collide == this)
+            if (collide == this || !collide.gameObject.activeInHierarchy)
                 return false;
 
             return !(Right <= collide.Left || Left >= collide.Right || Top <= collide.Bottom || Bottom >= collide.Top);
+        });
+    }
+
+    public List<Collide2D> GetCollisionEnter()
+    {
+        return allCollides.FindAll((collide) =>
+        {
+            if (collide == this)
+                return false;
+            //return (((collide.Left + collide.Right) / 2) == ((Left + Right) / 2));
         });
     }
 }

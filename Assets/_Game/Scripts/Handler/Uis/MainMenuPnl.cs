@@ -11,8 +11,9 @@ public class MainMenuPnl : MonoBehaviour
     {
         startGameBtn.onClick.AddListener(() =>
         {
-            this.gameObject.SetActive(false);
-            Time.timeScale = 1f;
+            GameController.Instance.State = GameController.GameState.PlayGame;
+            GameController.Instance.CheckGameState();
+            UIController.Instance.PlayGame();
         });
     }
 }

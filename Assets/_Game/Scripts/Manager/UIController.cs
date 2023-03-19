@@ -39,4 +39,9 @@ public class UIController : Singleton<UIController>
         Hide();
         endGamePnl.gameObject.SetActive(true);
     }
+
+    public void UpdateScore(int value)
+    {
+        playGamePnl.UpdateScore(value);
+    }
 }

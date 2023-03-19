@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class GameController : Singleton<GameController>
 {
-    public static  readonly string GameScene = "Game";
+    
+    [SerializeField] private Transform pipeStartPos;
+    [SerializeField] private BirdHandler birdHandler;
+    [SerializeField] private PipeHandler pipeHandler;
     public enum GameState
     {
         StartGame = 0,
@@ -13,7 +16,6 @@ public class GameController : Singleton<GameController>
         PauseGame = 2,
         EndGame = 3,
     }
-    public Bird bird;
 
     public GameState State;
 
@@ -22,29 +24,57 @@ public class GameController : Singleton<GameController>
     public int Score
     {
         get { return _score; }
-        private set { _score = value; }
+        set { _score = value; }
     }
 
+    private void Update()
+    {
+        if (GameController.Instance.State != GameController.GameState.PlayGame)
+            return;
+
+        pipeHandler.SpawnPipe();
+        birdHandler.Movement();
+    }
 
     protected override void Init()
     {
         base.Init();
         Time.timeScale = 0f;
+        State = GameState.StartGame;
+    }
+
+    public void CheckGameState()
+    {
+        switch (State)
+        {
+            case GameState.StartGame:
+                break;
+            case GameState.PlayGame:
+                PlayGame();
+                break;
+            case GameState.PauseGame:
+                break;
+            case GameState.EndGame:
+                EndGame();
+                break;
+        }
+    }
+
+    private void PlayGame()
+    {
+        Time.timeScale = 1f;
+    }
+
+    private void EndGame()
+    {
+        UIController.Instance.EndGame();
+        StartCoroutine(ResetGame());
     }
 
     IEnumerator ResetGame()
     {
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(GameScene);
-    }
-
-    public void EndGame()
-    {
-        if(bird.IsDead)
-        {
-            UIController.Instance.EndGame();
-        }
-        StartCoroutine(ResetGame());
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(Constants.GameScene);
     }
 }
 

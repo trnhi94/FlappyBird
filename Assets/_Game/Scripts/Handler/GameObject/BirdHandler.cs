@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +7,8 @@ public class BirdHandler : MonoBehaviour
     private Animator _anim;
     private float _velocityY;
     private Collide2D _collider;
+    private bool _isCollided = false;
+    private List<Collide2D> _colliders = new List<Collide2D>();
 
     // Start is called before the first frame update
     private void Start()
@@ -26,28 +27,37 @@ public class BirdHandler : MonoBehaviour
             _velocityY = Constants.JumpForce;
         }
 
-        CheckCollide();
+        _colliders = _collider.GetCollisions();
+        
+        if (_colliders.Count != 0 && !_isCollided)
+        {
+            _isCollided = true;
+        }
+
+        if( _isCollided)
+        {
+            CheckCollide();
+        }
     }
+
+
 
     private void CheckCollide()
     {
-        if (GameController.Instance.State != GameController.GameState.PlayGame)
+        if (GameController.Instance.State != GameController.GameState.PlayGame && !_isCollided)
             return;
 
-        var colliders = _collider.GetCollisions();
-
-        foreach (var other in colliders)
+        _isCollided = false;
+        foreach (var other in _colliders)
         {
             if (other.gameObject.layer == Constants.Obstacle)
             {
                 _velocityY = 0f;
                 GameController.Instance.State = GameController.GameState.EndGame;
                 GameController.Instance.CheckGameState();
+                break;
             }
-        }
-        var collidersEnter = _collider.GetCollisionEnter();
-        foreach (var other in colliders)
-        {
+
             if (other.gameObject.layer == Constants.Score)
             {
                 Debug.Log("Score!!!");

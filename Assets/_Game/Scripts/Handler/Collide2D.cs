@@ -45,7 +45,7 @@ public class Collide2D : MonoBehaviour
         {
             if (collide == this)
                 return false;
-            //return (((collide.Left + collide.Right) / 2) == ((Left + Right) / 2));
+            return (((collide.Left + collide.Right) / 2) == ((Left + Right) / 2));
         });
     }
 }

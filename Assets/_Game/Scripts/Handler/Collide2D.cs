@@ -38,14 +38,4 @@ public class Collide2D : MonoBehaviour
             return !(Right <= collide.Left || Left >= collide.Right || Top <= collide.Bottom || Bottom >= collide.Top);
         });
     }
-
-    public List<Collide2D> GetCollisionEnter()
-    {
-        return allCollides.FindAll((collide) =>
-        {
-            if (collide == this)
-                return false;
-            return (((collide.Left + collide.Right) / 2) == ((Left + Right) / 2));
-        });
-    }
 }

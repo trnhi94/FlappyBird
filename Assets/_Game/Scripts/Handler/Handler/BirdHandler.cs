@@ -7,8 +7,7 @@ public class BirdHandler : MonoBehaviour
     private Animator _anim;
     private float _velocityY;
     private Collide2D _collider;
-    private bool _isCollided = false;
-    private List<Collide2D> _colliders = new List<Collide2D>();
+    private bool _isScore = false;
 
     // Start is called before the first frame update
     private void Start()
@@ -27,27 +26,16 @@ public class BirdHandler : MonoBehaviour
             _velocityY = Constants.JumpForce;
         }
 
-        _colliders = _collider.GetCollisions();
-        
-        if (_colliders.Count != 0 && !_isCollided)
+        CheckCollide();
+        if(!_isScore)
         {
-            _isCollided = true;
-        }
-
-        if( _isCollided)
-        {
-            CheckCollide();
+            CheckScore();
         }
     }
 
-
-
     private void CheckCollide()
     {
-        if (GameController.Instance.State != GameController.GameState.PlayGame && !_isCollided)
-            return;
-
-        _isCollided = false;
+        var _colliders = _collider.GetCollisions();
         foreach (var other in _colliders)
         {
             if (other.gameObject.layer == Constants.Obstacle)
@@ -58,8 +46,23 @@ public class BirdHandler : MonoBehaviour
                 break;
             }
 
-            if (other.gameObject.layer == Constants.Score)
+            //if (other.gameObject.layer == Constants.Score)
+            //{
+            //    Debug.Log("Score!!!");
+            //    GameController.Instance.Score++;
+            //    UIController.Instance.UpdateScore(GameController.Instance.Score);
+            //}
+        }
+    }
+
+    private void CheckScore()
+    {
+        var _colliders = _collider.GetCollisions();
+        foreach (var other in _colliders)
+        {
+            if (other.gameObject.layer == Constants.Score && !_isScore)
             {
+                _isScore = true;
                 Debug.Log("Score!!!");
                 GameController.Instance.Score++;
                 UIController.Instance.UpdateScore(GameController.Instance.Score);

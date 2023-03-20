@@ -10,7 +10,7 @@ public class Parralax : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.Instance.State != GameController.GameState.PlayGame)
+        if (GameController.Instance.State != GameState.PlayGame)
             return;
         transform.position -= Vector3.right * Time.deltaTime * speed;
         for (int i = 0; i < backgrounds.Length; i++)

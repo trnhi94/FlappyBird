@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameState
+{
+    StartGame = 0,
+    PlayGame = 1,
+    PauseGame = 2,
+    EndGame = 3,
+}
+
 public class GameController : Singleton<GameController>
 {
     
     [SerializeField] private Transform pipeStartPos;
     [SerializeField] private BirdHandler birdHandler;
     [SerializeField] private PipeHandler pipeHandler;
-    public enum GameState
-    {
-        StartGame = 0,
-        PlayGame = 1,
-        PauseGame = 2,
-        EndGame = 3,
-    }
 
     public GameState State;
 
@@ -29,7 +30,7 @@ public class GameController : Singleton<GameController>
 
     private void Update()
     {
-        if (GameController.Instance.State != GameController.GameState.PlayGame)
+        if (GameController.Instance.State != GameState.PlayGame)
             return;
 
         pipeHandler.SpawnPipe();

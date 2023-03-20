@@ -27,6 +27,7 @@ public class BirdHandler : MonoBehaviour
         {
             _anim.SetTrigger(Constants.Flappy);
             _velocityY = Constants.JumpForce;
+            AudioController.Instance.PlaySfx(Constants.SFXWing);
         }
 
         #endregion
@@ -49,17 +50,11 @@ public class BirdHandler : MonoBehaviour
             if (other.gameObject.layer == Constants.Obstacle)
             {
                 _velocityY = 0f;
-                GameController.Instance.State = GameController.GameState.EndGame;
+                AudioController.Instance.PlaySfx(Constants.SFXHit);
+                GameController.Instance.State = GameState.EndGame;
                 GameController.Instance.CheckGameState();
                 break;
             }
-
-            //if (other.gameObject.layer == Constants.Score)
-            //{
-            //    Debug.Log("Score!!!");
-            //    GameController.Instance.Score++;
-            //    UIController.Instance.UpdateScore(GameController.Instance.Score);
-            //}
         }
     }
 
@@ -71,9 +66,9 @@ public class BirdHandler : MonoBehaviour
             if (other.gameObject.layer == Constants.Score && !_isScore)
             {
                 _isScore = true;
-                //Debug.Log("Score!!!");
                 GameController.Instance.Score++;
                 UIController.Instance.UpdateScore(GameController.Instance.Score);
+                AudioController.Instance.PlaySfx(Constants.SFXPoint);
                 StartCoroutine(ResetCheckScore());
             }
         }

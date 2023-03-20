@@ -9,7 +9,7 @@ public class Pipe : MonoBehaviour
     private void Update()
     {
         #region MOVING
-        if (GameController.Instance.State != GameController.GameState.PlayGame)
+        if (GameController.Instance.State != GameState.PlayGame)
             return;
 
         transform.position = new Vector2(transform.position.x - speed * Time.deltaTime,

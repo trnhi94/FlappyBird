@@ -38,6 +38,7 @@ public class UIController : Singleton<UIController>
     {
         Hide();
         endGamePnl.gameObject.SetActive(true);
+        AudioController.Instance.PlaySfx(Constants.SFXDie);
     }
 
     public void UpdateScore(int value)

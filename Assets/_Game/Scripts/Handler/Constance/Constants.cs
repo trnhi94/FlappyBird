@@ -11,4 +11,10 @@ public static class Constants
 
     public static readonly string GameScene = "Game";
     public static readonly string Flappy = "Flappy";
+
+    public static readonly string SFXDie = "die";
+    public static readonly string SFXHit = "hit";
+    public static readonly string SFXPoint = "point";
+    public static readonly string SFXSword = "sword";
+    public static readonly string SFXWing = "wing";
 }

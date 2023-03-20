@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,8 +17,10 @@ public class BirdHandler : MonoBehaviour
         _collider = GetComponent<Collide2D>();
     }
 
-    public void Movement()
+    public void Controller()
     {
+        #region MOVING
+
         _velocityY += Constants.Gravity * Time.deltaTime;
         transform.position += Vector3.up * _velocityY * Time.deltaTime; ;
         if (Input.GetMouseButtonDown(0))
@@ -26,11 +29,16 @@ public class BirdHandler : MonoBehaviour
             _velocityY = Constants.JumpForce;
         }
 
+        #endregion
+        #region COLLISION
+
         CheckCollide();
         if(!_isScore)
         {
             CheckScore();
         }
+
+        #endregion
     }
 
     private void CheckCollide()
@@ -63,10 +71,17 @@ public class BirdHandler : MonoBehaviour
             if (other.gameObject.layer == Constants.Score && !_isScore)
             {
                 _isScore = true;
-                Debug.Log("Score!!!");
+                //Debug.Log("Score!!!");
                 GameController.Instance.Score++;
                 UIController.Instance.UpdateScore(GameController.Instance.Score);
+                StartCoroutine(ResetCheckScore());
             }
         }
+    }
+
+    IEnumerator ResetCheckScore()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _isScore = false;
     }
 }

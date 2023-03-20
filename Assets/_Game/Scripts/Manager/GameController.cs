@@ -33,7 +33,7 @@ public class GameController : Singleton<GameController>
             return;
 
         pipeHandler.SpawnPipe();
-        birdHandler.Movement();
+        birdHandler.Controller();
     }
 
     protected override void Init()
